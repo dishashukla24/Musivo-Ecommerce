@@ -4,7 +4,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const backendRes = await fetch("http://localhost:8080/api/auth/verify-otp", {
+    const backendRes = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/verify-otp`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
