@@ -14,36 +14,19 @@ const Cart = () => {
   const cartRef = useRef();
   const router = useRouter();
   const { totalPrice, totalQuantities, cartItems, setShowCart, toggleCartItemQuanitity, onRemove } = useStateContext();
-
+  
   const handleCashOnDelivery = async () => {
     try {
-      const user = await getProfile();
-
-      if (!user || !user._id) {
-        toast.error('Please log in to place order');
-        return;
-      }
-
-      await axios.post('http://localhost:8080/api/orders', {
-        userId: user._id,
-        products: cartItems.map((item) => ({
-          productId: item._id,
-          name: item.name,
-          quantity: item.quantity,
-          price: item.price
-        })),
-        totalAmount: totalPrice
-      }, { withCredentials: true });
-
       localStorage.clear();
-      setShowCart(false);
-      router.push('/success');
-    } catch (error) {
-      console.error(error);
-      toast.error('Failed to place order');
-    }
-  };
+    setShowCart(false);
 
+    // Redirect to success page
+    router.push('/success');
+  } catch (error) {
+    console.error(error);
+    toast.error('Something went wrong');
+  }
+};
   const handleCheckout = async () => {
     const stripe = await getStripe();
 

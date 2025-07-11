@@ -1,4 +1,3 @@
-// Navbar.js
 import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -8,17 +7,16 @@ import { Cart } from './';
 import { useStateContext } from '../context/StateContext';
 import { useRouter } from 'next/router';
 import AuthModal from './AuthModal';
-import { getProfile } from '../utils/getProfile';
+import {getProfile}  from '../utils/getProfile';
 import { logout } from '../utils/logout';
 import toast from 'react-hot-toast';
 
 const Navbar = () => {
   const [search, setSearch] = useState('');
   const [showAuthModal, setShowAuthModal] = useState(false);
-  const [user, setUser] = useState(null);
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const dropdownRef = useRef();
-  const { showCart, setShowCart, totalQuantities } = useStateContext();
+  const { showCart, setShowCart, totalQuantities, user, setUser } = useStateContext();
   const router = useRouter();
 
   const handleSearch = () => {
@@ -58,6 +56,7 @@ const Navbar = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
   
+
 
   return (
     <div className="navbar-container flex items-center justify-between px-6 py-4 shadow-md bg-white">
