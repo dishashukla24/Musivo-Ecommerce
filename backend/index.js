@@ -1,30 +1,39 @@
 const express = require('express');
-require('dotenv').config(); 
+require('dotenv').config();
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
-const dotenv = require('dotenv');
 const connectDB = require('./config/db');
-const authRoutes = require('./routes/auth'); 
-
-dotenv.config();
-console.log("EMAIL_USER:", process.env.EMAIL_USER);
-console.log("EMAIL_PASS:", process.env.EMAIL_PASS ? '✅ Loaded' : '❌ MISSING');
-
+const authRoutes = require('./routes/auth');
 
 const app = express();
 
+const allowedOrigin = process.env.FRONTEND_URL;
+
+// ✅ CORS Setup
 app.use(cors({
-  origin: process.env.FRONTEND_URL, 
+  origin: allowedOrigin,
   credentials: true,
-  exposedHeaders: ['set-cookie'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  exposedHeaders: ['set-cookie']
 }));
 
+// ✅ Handle preflight OPTIONS requests
+app.options('*', cors({
+  origin: allowedOrigin,
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+}));
+
+// ✅ Middleware
 app.use(express.json());
 app.use(cookieParser());
 
+// ✅ Routes
 app.use('/api', authRoutes);
 
-
+// ✅ DB + Start
 connectDB().then(() => {
   app.listen(process.env.PORT || 8080, () => {
     console.log('✅ Server is running on port 8080');
