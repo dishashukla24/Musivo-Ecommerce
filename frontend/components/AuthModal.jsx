@@ -3,7 +3,8 @@ import { toast } from 'react-hot-toast';
 import { useRouter } from 'next/router';
 import { useStateContext } from '../context/StateContext';
 
-const BASE_URL = 'http://localhost:8080/api'; 
+const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+
 
 const AuthModal = ({ onClose }) => {
   const router = useRouter();

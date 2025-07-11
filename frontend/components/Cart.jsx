@@ -14,7 +14,7 @@ const Cart = () => {
   const cartRef = useRef();
   const router = useRouter();
   const { totalPrice, totalQuantities, cartItems, setShowCart, toggleCartItemQuanitity, onRemove } = useStateContext();
-  
+  const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
   const handleCashOnDelivery = async () => {
     try {
       localStorage.clear();
