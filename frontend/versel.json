@@ -21,7 +21,7 @@
         },
         {
           "git": {
-            "submodules": false
+            "submodules": true
           }
         }        
       ]
