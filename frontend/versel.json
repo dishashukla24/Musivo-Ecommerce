@@ -18,12 +18,7 @@
         {
           "key": "Access-Control-Allow-Credentials",
           "value": "true"
-        },
-        {
-          "git": {
-            "submodules": true
-          }
-        }        
+        }      
       ]
     }
   ]
