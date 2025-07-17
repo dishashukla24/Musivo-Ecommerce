@@ -36,7 +36,7 @@ const AuthModal = ({ onClose }) => {
 
       try {
         // ✅ Send OTP (signup - step 1)
-const res = await fetch(`${BASE_URL}/send-otp`, {
+const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/send-otp`, {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify({ email: formData.email }),
@@ -63,7 +63,7 @@ const res = await fetch(`${BASE_URL}/send-otp`, {
     if (isSignup && step === 2) {
       try {
         // ✅ Verify OTP (signup - step 2)
-const res = await fetch(`${BASE_URL}/verify-otp`, {
+const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/verify-otp`, {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
   credentials: 'include',
@@ -96,7 +96,7 @@ const res = await fetch(`${BASE_URL}/verify-otp`, {
     if (!isSignup) {
       try {
         // ✅ Login
-const res = await fetch(`${BASE_URL}/login`, {
+        const res = await fetch(`${BASE_URL}/api/login`, {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
   credentials: 'include',

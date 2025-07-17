@@ -10,15 +10,10 @@ const Profile = () => {
 
   useEffect(() => {
     getProfile()
-      .then((res) => {
-        setUser(res);
-        setLoading(false);
-      })
-      .catch(() => {
-        toast.error('Please login first');
-        setLoading(false);
-      });
+      .then((res) => setUser(res.user))
+      .catch(() => toast.error('Please login first'));
   }, []);
+  
 
   const handleLogout = async () => {
     await logout();

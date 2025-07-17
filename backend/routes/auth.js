@@ -76,37 +76,43 @@ router.post('/verify-otp', async (req, res) => {
   }
 });
 
-// Login
+// LOGIN
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
-
   try {
     const user = await User.findOne({ email });
-    if (!user) return res.status(400).json({ error: "Invalid username" });
+    if (!user) return res.status(401).json({ message: 'Invalid credentials' });
 
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return res.status(400).json({ error: "Invalid password" });
+    if (!isMatch) return res.status(401).json({ message: 'Invalid credentials' });
 
-    const token = jwt.sign({ id: user._id, name: user.name, email: user.email }, process.env.JWT_SECRET, {
-      expiresIn: '7d',
-    });
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
 
     res.cookie('token', token, {
       httpOnly: true,
-      sameSite: 'Lax',
-      secure: false, // ⚠️ Change to true in production
+      sameSite: 'lax',
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    res.status(200).json({ user: { name: user.name, email: user.email } });
-  } catch (err) {
-    console.error("Login Error:", err);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(200).json({ message: 'Login successful', user: { email: user.email, name: user.name } });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
   }
 });
 
-// Profile (secured)
-router.get('/profile', authMiddleware, (req, res) => {
-  res.status(200).json({ name: req.user.name, email: req.user.email,_id: req.user.id});
+// PROFILE
+router.get('/profile', (req, res) => {
+  const token = req.cookies.token;
+  if (!token) return res.status(401).json({ message: 'Not logged in' });
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    res.status(200).json({ id: decoded.id });
+  } catch (err) {
+    return res.status(401).json({ message: 'Invalid token' });
+  }
 });
 
 // Logout

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { getProfile } from '../../../utils/getProfile';
+import { getProfile } from '../../utils/getProfile';
 import toast from 'react-hot-toast';
-import { logout } from '../../../utils/logout';
+import { logout } from '../../utils/logout';
 
 const Profile = () => {
   const [user, setUser] = useState(null);

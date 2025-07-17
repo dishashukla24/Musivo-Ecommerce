@@ -1,12 +1,16 @@
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
-
+// utils/getProfile.js
 export const getProfile = async () => {
-   const res = await fetch(`${BASE_URL}/api/profile`, {
-      credentials: 'include',
+  try {
+    const res = await fetch('/api/auth/profile', {
+      method: 'GET',
+      credentials: 'include', // important for cookies
     });
-  
-    if (!res.ok) throw new Error('Not authenticated');
-  
-    return await res.json();
-  };
-  
+    if (!res.ok) return null;
+
+    const data = await res.json();
+    return data.user;
+  } catch (err) {
+    console.error('Profile fetch failed:', err);
+    return null;
+  }
+};
