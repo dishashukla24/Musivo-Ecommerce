@@ -9,6 +9,7 @@ export default async function handler(req, res) {
       const backendRes = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/send-otp`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: 'include',
         body: JSON.stringify(req.body),
       });
   

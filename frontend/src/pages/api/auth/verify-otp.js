@@ -10,7 +10,7 @@ export default async function handler(req, res) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(req.body),
-      credentials: 'include'
+      credentials: 'include',
     });
 
     const body = await backendRes.text();
