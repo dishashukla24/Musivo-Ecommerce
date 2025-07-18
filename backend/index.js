@@ -23,7 +23,10 @@ const corsOptions = {
   exposedHeaders: ['set-cookie'],
 };
 
-app.use(cors(corsOptions));
+app.use(cors({
+  origin: process.env.FRONTEND_URL,  
+  credentials: true,                
+}));
 
 // ✅ Preflight handler for all routes
 app.options('*', cors(corsOptions));
