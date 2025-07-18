@@ -16,8 +16,8 @@ const app = express();
 
 // ✅ CORS Config for cross-origin cookies
 const corsOptions = {
-  origin: process.env.FRONTEND_URL, // Must match frontend exactly
-  credentials: true,                // Required for cookies
+  origin: process.env.FRONTEND_URL, 
+  credentials: true,                
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type'],
   exposedHeaders: ['set-cookie'],
@@ -27,6 +27,8 @@ app.use(cors(corsOptions));
 
 // ✅ Preflight handler for all routes
 app.options('*', cors(corsOptions));
+app.use(cors(corsOptions));
+
 
 // ✅ Core middlewares
 app.use(express.json());
