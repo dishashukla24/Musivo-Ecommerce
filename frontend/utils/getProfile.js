@@ -1,7 +1,7 @@
 // utils/getProfile.js
 export const getProfile = async () => {
   try {
-    const res = await fetch('/api/auth/profile', {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/profile`, {
       method: 'GET',
       credentials: 'include', // important for cookies
     });
