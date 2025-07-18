@@ -65,9 +65,11 @@ router.post('/verify-otp', async (req, res) => {
 
     res.cookie('token', token, {
       httpOnly: true,
-      sameSite: 'Lax',
-      secure: false, 
+      sameSite: 'None',           // ✅ Required for cross-origin
+      secure: true,               // ✅ Must be true on Vercel/HTTPS
+      maxAge: 7 * 24 * 60 * 60 * 1000,
     });
+    
 
     res.status(200).json({ user: { name: newUser.name, email: newUser.email } });
   } catch (err) {
@@ -90,10 +92,11 @@ router.post('/login', async (req, res) => {
 
     res.cookie('token', token, {
       httpOnly: true,
-      sameSite: 'lax',
-      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'None',           // ✅ Required for cross-origin
+      secure: true,               // ✅ Must be true on Vercel/HTTPS
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
+    
 
     res.status(200).json({ message: 'Login successful', user: { email: user.email, name: user.name } });
   } catch (error) {
