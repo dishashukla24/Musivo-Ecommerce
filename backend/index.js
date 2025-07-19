@@ -14,24 +14,10 @@ console.log("EMAIL_PASS:", process.env.EMAIL_PASS ? '✅ Loaded' : '❌ MISSING'
 
 const app = express();
 
-// ✅ CORS Config for cross-origin cookies
-const corsOptions = {
-  origin: process.env.FRONTEND_URL, 
-  credentials: true,                
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type'],
-  exposedHeaders: ['set-cookie'],
-};
-
 app.use(cors({
   origin: process.env.FRONTEND_URL,  
   credentials: true,                
 }));
-
-// ✅ Preflight handler for all routes
-app.options('*', cors(corsOptions));
-app.use(cors(corsOptions));
-
 
 // ✅ Core middlewares
 app.use(express.json());
