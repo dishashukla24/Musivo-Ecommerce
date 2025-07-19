@@ -19,14 +19,16 @@ app.use(cors({
   credentials: true,                
 }));
 
-// ✅ Core middlewares
 app.use(express.json());
 app.use(cookieParser());
 
-// ✅ Routes
 app.use('/api/auth', authRoutes);
 
-// ✅ Connect to DB and start server
+app.use((req,res,next) => {
+  res.setHeader("Access-Control-Allow-Origin","*");
+  next();
+});
+
 connectDB().then(() => {
   app.listen(process.env.PORT || 8080, () => {
     console.log('✅ Server is running on port 8080');
