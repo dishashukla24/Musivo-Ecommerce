@@ -24,11 +24,6 @@ app.use(cookieParser());
 
 app.use('/api/auth', authRoutes);
 
-app.use((req,res,next) => {
-  res.setHeader("Access-Control-Allow-Origin","*");
-  next();
-});
-
 connectDB().then(() => {
   app.listen(process.env.PORT || 8080, () => {
     console.log('✅ Server is running on port 8080');
